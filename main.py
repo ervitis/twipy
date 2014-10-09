@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from keys import Keys, KeyFiles
+from twipy.keys import Keys, KeyFiles
 
 
 def get_keys(keys):
@@ -11,6 +11,7 @@ def get_keys(keys):
 
 
 def main():
+    get_version()
     file_storage = KeyFiles()
     file_storage.create_folder()
 
