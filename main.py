@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from twipy.keys import Keys, KeyFiles
+from twipy.command import Command
+import sys
 
 
 def get_keys(keys):
@@ -10,8 +12,7 @@ def get_keys(keys):
     keys.get_access(oauth_client, pin_code)
 
 
-def main():
-    get_version()
+def is_first_time_storage():
     file_storage = KeyFiles()
     file_storage.create_folder()
 
@@ -19,8 +20,21 @@ def main():
 
     if not file_storage.exists_token_file():
         get_keys(keys)
-
         keys.save_keys()
+
+        return True
+    return False
+
+
+def main():
+    if len(sys.argv) != 2:
+        raise Exception('Too or less arguments\nExample: main.py <argument>')
+
+    if not is_first_time_storage():
+        command = Command(sys.argv[1])
+        command.dispatch()
+    else:
+        print 'Execute again the program normally'
 
     exit(0)
 

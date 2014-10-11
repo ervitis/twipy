@@ -1,6 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import oauth2
+from directory import DirectoryApi
+from keys import KeyFiles
+
+RESPONSE_OK = 200
 
 
 class ApiTwip(object):
@@ -11,8 +15,8 @@ class ApiTwip(object):
     def __init__(self,
                  consumer_key,
                  consumer_secret,
-                 oauth_token,
-                 oauth_token_secret):
+                 oauth_token=None,
+                 oauth_token_secret=None):
 
         self._consumer_key = consumer_key
         self._consumer_secret = consumer_secret
@@ -20,9 +24,13 @@ class ApiTwip(object):
         self._oauth_token_secret = oauth_token_secret
         self.is_authenticated = False
         self._client = None
+        self._directory_api = DirectoryApi()
 
     def _authenticate(self):
         if not self._client:
+            key_files = KeyFiles()
+
+            self._oauth_token, self._oauth_token_secret = key_files.open_token_file()
             self._client = self._get_client()
             self.is_authenticated = True
 
@@ -44,7 +52,17 @@ class ApiTwip(object):
         pass
 
     def get_home_time_line(self):
-        pass
+        if not self.is_authenticated:
+            self._authenticate()
+        uri = self._directory_api.get_url_home_timeline()
+
+        response, content = self._client.request(uri=uri)
+        response_status = is_response_ok(response)
+
+        if not response_status:
+            raise Exception('Response not ok %s' %response_status)
+
+        print content
 
     def get_direct_messages(self):
         pass
@@ -60,3 +78,11 @@ class ApiTwip(object):
 
     def verify_credentials(self):
         pass
+
+
+def is_response_ok(response):
+    response_status = int(response['status'])
+
+    if response_status == RESPONSE_OK:
+        return True
+    return response_status

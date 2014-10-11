@@ -4,11 +4,11 @@ import oauth2
 import os
 from urlparse import urljoin, parse_qsl
 import ConfigParser
+from directory import DirectoryApi
 
 CONSUMER_KEY = 'zLs5P3Mk1eQxTmdLSX6VqpDXj'
 CONSUMER_SECRET = 'HCkA4cRitOvHic7V3k2PZxAZS9ZZX1YqLRGgkHvZ2CijUBEdI9'
 
-TWITTER_URL = 'https://api.twitter.com'
 RESPONSE_OK = '200'
 
 TWIPPY_DIR = '.twipy'
@@ -67,7 +67,8 @@ class Keys():
         :exception: response status != 200
         """
 
-        request_token_url = urljoin(TWITTER_URL, '/oauth/request_token')
+        directory_api = DirectoryApi()
+        request_token_url = directory_api.get_url_request_token()
 
         response, content = oauth_client.request(request_token_url)
 
@@ -85,7 +86,8 @@ class Keys():
         :return: oauth_client and pin_code
         """
 
-        authorize_url = urljoin(TWITTER_URL, '/oauth/authorize')
+        directory_api = DirectoryApi()
+        authorize_url = directory_api.get_url_authorize_url()
         authorize_with_token_url = urljoin(authorize_url, '?oauth_token=%s' % self._access_token)
 
         print 'Visit the url to obtain the auth code:'
@@ -109,13 +111,15 @@ class Keys():
         :param pin_code:
         """
 
-        access_token_url = urljoin(TWITTER_URL, 'oauth/access_token')
+        directory_api = DirectoryApi()
+        access_token_url = directory_api.get_url_access_token()
 
         response, content = oauth_client.request(access_token_url, method='POST', body='oauth_verifier=%s' % pin_code)
 
         if response['status'] == RESPONSE_OK:
             dict_token = dict(parse_qsl(content))
             self._access_token = dict_token['oauth_token']
+            self._access_token_secret = dict_token['oauth_token_secret']
         else:
             raise Exception('Twitter response: %s' % str(response['status']))
 
