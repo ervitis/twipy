@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import oauth2
+
 from directory import DirectoryApi
 from keys import KeyFiles
+
 
 RESPONSE_OK = 200
 
@@ -60,9 +62,9 @@ class ApiTwip(object):
         response_status = is_response_ok(response)
 
         if not response_status:
-            raise Exception('Response not ok %s' %response_status)
+            raise Exception('Response not ok %s' % response_status)
 
-        print content
+        return content
 
     def get_direct_messages(self):
         pass

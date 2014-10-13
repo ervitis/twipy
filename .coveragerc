@@ -1,0 +1,3 @@
+[run]
+source = twipy
+omit = /usr/*, tests/*

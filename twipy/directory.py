@@ -30,25 +30,32 @@ class DirectoryApi():
         return self._url
 
     def get_url_update_status(self):
-        pass
+        self._url = urljoin(TWITTER_URL, UPDATE_STATUS)
+        return self._url
 
     def get_url_send_dm(self):
-        pass
+        self._url = urljoin(TWITTER_URL, DM_WRITE)
+        return self._url
 
     def get_url_read_dm(self):
-        pass
+        self._url = urljoin(TWITTER_URL, DM_READ)
+        return self._url
 
     def get_url_read_mentions(self):
-        pass
+        self._url = urljoin(TWITTER_URL, ME_READ)
+        return self._url
 
     def get_url_new_fav(self):
-        pass
+        self._url = urljoin(TWITTER_URL, FV_ADD)
+        return self._url
 
     def get_url_read_favs(self):
-        pass
+        self._url = urljoin(TWITTER_URL, FV_READ)
+        return self._url
 
     def get_url_verify_credentials(self):
-        pass
+        self._url = urljoin(TWITTER_URL, VERIFY_CREDENTIALS)
+        return self._url
 
     def get_url_request_token(self):
         self._url = urljoin(TWITTER_URL, REQUEST_TOKEN)
