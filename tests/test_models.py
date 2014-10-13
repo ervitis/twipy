@@ -41,6 +41,9 @@ class TimelineTest(TestCase):
         with self.assertRaises(Exception):
             timeline.add(status)
 
+        status2 = tests.create_another_status()
+        self.assertRaises(ValueError, timeline.remove(status2))
+
         status = tests.create_status()
         timeline.add(status)
         self.assertEqual(1, len(timeline.statuses))
