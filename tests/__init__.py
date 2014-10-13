@@ -4,7 +4,7 @@ from datetime import datetime
 
 
 def create_status():
-    return Status(created_at=datetime.now(), id_str='1', text='Prueba test', user='bot')
+    return Status(created_at=datetime.now(), id_str='1', text='Prueba test', user='botty')
 
 
 def create_user():
