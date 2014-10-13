@@ -7,6 +7,10 @@ def create_status():
     return Status(created_at=datetime.now(), id_str='1', text='Prueba test', user='botty')
 
 
+def create_another_status():
+    return Status(created_at=datetime.now(), id_str='3', text='Prueba test2', user='botty2')
+
+
 def create_user():
     return User(
         created_at=datetime.now(),
