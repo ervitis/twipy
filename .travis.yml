@@ -9,3 +9,6 @@ script:
 branches:
   only:
     - testing
+
+after_success:
+  coveralls
