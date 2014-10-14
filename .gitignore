@@ -3,3 +3,4 @@
 htmlcov
 .coverage
 .coveralls.yml
+twipy.egg-info
