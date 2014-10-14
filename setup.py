@@ -13,4 +13,7 @@ setup(name='twipy',
       zip_safe=True,
       entry_points={
           'console_scripts': ['twipy = twipy.main:main']
-      })
+      },
+      download_url='://github.com/ervitis/twipy/tarball/' + version,
+      license='MIT',
+      classifiers=[])
