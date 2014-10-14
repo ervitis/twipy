@@ -4,3 +4,6 @@ Travis: [![Build Status](https://travis-ci.org/ervitis/twipy.svg?branch=testing)
 
 Coverage: [![Coverage Status](https://coveralls.io/repos/ervitis/twipy/badge.png)](https://coveralls.io/r/ervitis/twipy)
 
+Pypi version: [![PyPi version](https://pypip.in/v/twipy/badge.png)](https://crate.io/packages/twpy/)
+
+Pypi downloads: [![PyPi downloads](https://pypip.in/d/twipy/badge.png)](https://crate.io/packages/twipy/)
