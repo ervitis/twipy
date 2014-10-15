@@ -41,8 +41,8 @@ class ApiTwip(object):
             consumer = oauth2.Consumer(key=self._consumer_key, secret=self._consumer_secret)
             access_token = oauth2.Token(key=self._oauth_token, secret=self._oauth_token_secret)
             client = oauth2.Client(consumer=consumer, token=access_token)
-        except ValueError as e:
-            raise Exception(e.message)
+        except ValueError as e:  # pragma: no cover
+            raise Exception(e.message)  # pragma: no cover
 
         # client object. To access the TW API: client.request(url)
         return client
@@ -62,7 +62,7 @@ class ApiTwip(object):
         response_status = is_response_ok(response)
 
         if not response_status:
-            raise Exception('Response not ok %s' % response_status)
+            raise Exception('Response not ok %s' % response_status)  # pragma: no cover
 
         return content
 
@@ -87,4 +87,4 @@ def is_response_ok(response):
 
     if response_status == RESPONSE_OK:
         return True
-    return response_status
+    return response_status  # pragma: no cover

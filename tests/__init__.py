@@ -45,12 +45,21 @@ def create_api():
     return ApiTwip(consumer_key=keys.CONSUMER_KEY, consumer_secret=keys.CONSUMER_SECRET)
 
 
-class Capturing(str):
+def create_api_without_consumer_key():
+    return ApiTwip(consumer_key=None, consumer_secret=None)
+
+
+def create_keys():
+    return keys.Keys(consumer_key=keys.CONSUMER_KEY, consumer_secret=keys.CONSUMER_SECRET)
+
+
+class Capturing(list):
 
     def __enter__(self):
         self._stdout = sys.stdout
         sys.stdout = self._stringio = StringIO()
         return self
 
-    def __exit__(self, exc_type, exc_val, exc_tb):
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
         sys.stdout = self._stdout

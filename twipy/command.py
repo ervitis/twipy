@@ -23,13 +23,13 @@ class Command():
 
     def dispatch(self):
         if self._command in COMMAND_TIMELINE:
-            content = self._api.get_home_time_line()
-            timeline = self._adapter.create_timeline_object(content)
+            content = self._api.get_home_time_line()  # pragma: no cover
+            timeline = self._adapter.create_timeline_object(content)  # pragma: no cover
 
-            cli_adapter = CliAdapter(timeline)
-            cli_adapter.get_statuses()
+            cli_adapter = CliAdapter(timeline)  # pragma: no cover
+            cli_adapter.get_statuses()  # pragma: no cover
 
         elif self._command in COMMAND_VERSION:
-            print version
+            print version  # pragma: no cover
         else:
             print COMMAND_HELP

@@ -1,3 +1,16 @@
 [run]
 source = twipy
-omit = /usr/*, tests/*, /home/travis/virtualenv/python2.7.8/lib/*
+omit = /usr/*, tests/*, /home/travis/virtualenv/python2.7.8/lib/*, /opt/*
+
+[report]
+exclude_lines =
+    pragma: no cover
+    def get_token
+    def authorize
+    def get_access
+    def save_keys
+    def open_keys
+    def create_folder
+    def create_token_file
+    def open_token_file
+    def exists_token_file

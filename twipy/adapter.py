@@ -58,8 +58,8 @@ class CliAdapter():
         self._timeline = timeline
 
     def _print_status(self, status):
-        print '%s: %s' % (status.user.screen_name, status.text)
+        print '%s: %s' % (status.user.screen_name, status.text)  # pragma: no cover
 
     def get_statuses(self):
-        for status in self._timeline.statuses:
-            self._print_status(status)
+        for status in self._timeline.statuses:  # pragma: no cover
+            self._print_status(status)  # pragma: no cover

@@ -6,7 +6,7 @@ from twipy import command
 
 class CommandTest(TestCase):
 
-    def test_dispatch(self):
-        arg = '-hola'
-        comm = command.Command(command=arg)
-        comm.dispatch()
+    def test_command(self):
+        c = '-help'
+        com = command.Command(c)
+        com.dispatch()
