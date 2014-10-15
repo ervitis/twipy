@@ -1,4 +1,8 @@
 from twipy.models import Status, User, DirectMessage, Timeline
+from twipy.api import ApiTwip
+from twipy import keys
+from cStringIO import StringIO
+import sys
 
 from datetime import datetime
 
@@ -35,3 +39,27 @@ def create_dm():
 
 def create_timeline():
     return Timeline()
+
+
+def create_api():
+    return ApiTwip(consumer_key=keys.CONSUMER_KEY, consumer_secret=keys.CONSUMER_SECRET)
+
+
+def create_api_without_consumer_key():
+    return ApiTwip(consumer_key=None, consumer_secret=None)
+
+
+def create_keys():
+    return keys.Keys(consumer_key=keys.CONSUMER_KEY, consumer_secret=keys.CONSUMER_SECRET)
+
+
+class Capturing(list):
+
+    def __enter__(self):
+        self._stdout = sys.stdout
+        sys.stdout = self._stringio = StringIO()
+        return self
+
+    def __exit__(self, *args):
+        self.extend(self._stringio.getvalue().splitlines())
+        sys.stdout = self._stdout
