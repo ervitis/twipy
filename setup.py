@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from twipy import version
 from setuptools import setup
 
 setup(name='twipy',
-      version=version,
+      version='0.0.1',
       description='Another Twitter client using Python 2.7',
       author='Victor Martin',
       author_email='vitomarti@gmail.com',
@@ -14,6 +13,6 @@ setup(name='twipy',
       entry_points={
           'console_scripts': ['twipy = twipy.main:main']
       },
-      download_url='://github.com/ervitis/twipy/tarball/' + version,
+      download_url='://github.com/ervitis/twipy/tarball/0.0.1',
       license='MIT',
       classifiers=[])
