@@ -34,7 +34,7 @@ class ApiTwip(object):
 
             if not self._oauth_token:
                 self._oauth_token, self._oauth_token_secret = key_files.open_token_file()
-            
+
             self._client = self._get_client()
             self.is_authenticated = True
 
