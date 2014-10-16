@@ -5,6 +5,23 @@ from cStringIO import StringIO
 import sys
 
 from datetime import datetime
+from twipy.keys import KeyFiles, Keys
+
+
+def get_keys(keys):
+    oauth_client = keys.get_auth_token()
+    keys.get_token(oauth_client)
+    oauth_client, pin_code = keys.authorize()
+    keys.get_access(oauth_client, pin_code)
+
+
+file_storage = KeyFiles()
+file_storage.create_folder()
+
+keys = Keys()
+
+get_keys(keys)
+keys.save_keys()
 
 
 def create_status():
