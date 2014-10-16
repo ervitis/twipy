@@ -47,8 +47,8 @@ def create_timeline():
 def create_api():
     return ApiTwip(consumer_key=keys.CONSUMER_KEY,
                    consumer_secret=keys.CONSUMER_SECRET,
-                   access_token=A_T,
-                   access_token_secret=A_S)
+                   oauth_token=A_T,
+                   oauth_token_secret=A_S)
 
 
 def create_api_without_consumer_key():
