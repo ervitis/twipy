@@ -5,13 +5,18 @@ from twipy import version
 from adapter import Adapter, CliAdapter
 import keys
 
-COMMAND_HELP = """Command helps\n
--ht --home-timeline:\tGets the user's timeline
--v --version:\t\tPrints the version
+COMMAND_HELP_TEXT = """Command helps\n
+ht:\tGets the user's timeline
+v:\tPrints the version
+h:\tPrints help commands
+u:\tWrite u <text> to update the Twitter status
 """
 
-COMMAND_TIMELINE = ['-ht', '--home-timeline']
-COMMAND_VERSION = ['-v', '--version']
+COMMAND_TIMELINE = ['ht']
+COMMAND_VERSION = ['v']
+COMMAND_EXIT = ['q']
+COMMAND_HELP = ['h']
+COMMAND_UPDATE = ['u']
 
 
 class Command():
@@ -31,5 +36,21 @@ class Command():
 
         elif self._command in COMMAND_VERSION:
             print version  # pragma: no cover
+
+        elif self._command in COMMAND_EXIT:
+            pass  # pragma: no cover
+
+        elif self._command in COMMAND_HELP:
+            print COMMAND_HELP_TEXT  # pragma: no cover
+
+        elif len(self._command) > 2:
+            com = self._command[:2].strip()
+            text = self._command[2:]
+            self._send_info(com, text)
+
         else:
-            print COMMAND_HELP
+            print COMMAND_HELP_TEXT
+
+    def _send_info(self, com, text):
+        if com in COMMAND_UPDATE:
+            self._api.update_status(text)
