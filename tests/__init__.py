@@ -5,23 +5,9 @@ from cStringIO import StringIO
 import sys
 
 from datetime import datetime
-from twipy.keys import KeyFiles, Keys
 
-
-def get_keys(keys):
-    oauth_client = keys.get_auth_token()
-    keys.get_token(oauth_client)
-    oauth_client, pin_code = keys.authorize()
-    keys.get_access(oauth_client, pin_code)
-
-
-file_storage = KeyFiles()
-file_storage.create_folder()
-
-keys = Keys()
-
-get_keys(keys)
-keys.save_keys()
+A_T = '2758322448-WO2UmukkqDP8SEjPY9k0nnyEoDwoFjkX2c7T9PN'
+A_S = 'ExTm3xwQeKxCsnJ7T8wlquxtuWhGwqEdYGc3RtANbrGlC'
 
 
 def create_status():
@@ -59,7 +45,10 @@ def create_timeline():
 
 
 def create_api():
-    return ApiTwip(consumer_key=keys.CONSUMER_KEY, consumer_secret=keys.CONSUMER_SECRET)
+    return ApiTwip(consumer_key=keys.CONSUMER_KEY,
+                   consumer_secret=keys.CONSUMER_SECRET,
+                   access_token=A_T,
+                   access_token_secret=A_S)
 
 
 def create_api_without_consumer_key():
@@ -67,7 +56,10 @@ def create_api_without_consumer_key():
 
 
 def create_keys():
-    return keys.Keys(consumer_key=keys.CONSUMER_KEY, consumer_secret=keys.CONSUMER_SECRET)
+    return keys.Keys(consumer_key=keys.CONSUMER_KEY,
+                     consumer_secret=keys.CONSUMER_SECRET,
+                     access_token=A_T,
+                     access_token_secret=A_S)
 
 
 class Capturing(list):
