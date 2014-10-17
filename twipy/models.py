@@ -39,6 +39,7 @@ class Status():
                  is_retweet=False,
                  retweet_count=0,
                  is_favorite=False):
+        self.c_id = None
         self.id_str = id_str
         self.created_at = created_at
         self.user = user
@@ -57,11 +58,14 @@ class Timeline():
 
     def __init__(self):
         self.statuses = []
+        self.count = 0
 
     def add(self, status):
         if not status:
             raise Exception('Status is null')
 
+        status.c_id = self.count
+        self.count += 1
         self.statuses.append(status)
 
     def remove(self, status):

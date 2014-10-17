@@ -4,6 +4,16 @@ from unittest import TestCase
 import tests
 
 
+LONG_TEXT = """
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
+labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
+"""
+
+SHORT_TEXT = ' Travis rocks! And it\'s very cool and free '
+
+LINK = ' https://www.youtube.com/watch?v=dQw4w9WgXcQ '
+
+
 class TestApi(TestCase):
 
     def test_consumer_keys(self):
@@ -25,7 +35,9 @@ class TestApi(TestCase):
     def test_update_status(self):
         api_twipy = tests.create_api()
 
-        api_twipy.update_status()
+        api_twipy.update_status(text=SHORT_TEXT)
+        api_twipy.update_status(text=LONG_TEXT)
+        api_twipy.update_status(text=SHORT_TEXT + LINK + SHORT_TEXT)
 
     def test_send_direct_message(self):
         api_twipy = tests.create_api()

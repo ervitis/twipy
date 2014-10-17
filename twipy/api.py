@@ -1,12 +1,15 @@
 # -*- coding: utf-8 -*-
 
 import oauth2
+import urllib
+import re
 
 from directory import DirectoryApi
 from keys import KeyFiles
 
 
 RESPONSE_OK = 200
+REGEXP_URL = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
 
 class ApiTwip(object):
@@ -33,7 +36,8 @@ class ApiTwip(object):
             key_files = KeyFiles()
 
             if not self._oauth_token:
-                self._oauth_token, self._oauth_token_secret = key_files.open_token_file() # pragma: no cover
+                self._oauth_token, self._oauth_token_secret = key_files.open_token_file()  # pragma: no cover
+
 
             self._client = self._get_client()
             self.is_authenticated = True
@@ -49,8 +53,31 @@ class ApiTwip(object):
         # client object. To access the TW API: client.request(url)
         return client
 
-    def update_status(self):
-        pass
+    def update_status(self, text, reply_to=None):
+        if not self.is_authenticated:
+            self._authenticate()
+        uri = self._directory_api.get_url_update_status()
+
+        if len(text) >= 140:
+            print 'Text length has to be less than 140 characters'
+            return
+
+        urls = re.findall(REGEXP_URL, text)
+
+        if urls and len(text) > 120:
+            print 'Text length with URL hast to be less than 120 characters'
+            return
+
+        body = 'status=%s' % urllib.quote(text)
+
+        # todo reply_to implementation
+
+        response, content = self._client.request(uri=uri, body=body, method='POST')
+
+        response_status = is_response_ok(response)
+
+        if not response_status:
+            print 'Response not ok %s' % response_status  # pragma: no cover
 
     def send_direct_message(self):
         pass
@@ -64,7 +91,7 @@ class ApiTwip(object):
         response_status = is_response_ok(response)
 
         if not response_status:
-            raise Exception('Response not ok %s' % response_status)  # pragma: no cover
+            print 'Response not ok %s' % response_status  # pragma: no cover
 
         return content
 

@@ -30,7 +30,7 @@ class DirectoryApi():
         return self._url
 
     def get_url_update_status(self):
-        self._url = urljoin(TWITTER_URL, UPDATE_STATUS)
+        self._url = self._twitter_api + UPDATE_STATUS
         return self._url
 
     def get_url_send_dm(self):
