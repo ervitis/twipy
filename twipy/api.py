@@ -67,7 +67,7 @@ class ApiTwip(object):
             print 'Text length with URL hast to be less than 120 characters'
             return
 
-        body = 'status=%s' % urllib.quote(text)
+        body = 'status=' + text.decode('utf-8')
 
         if reply_to:
             body += '&in_reply_to_status_id=' + reply_to
