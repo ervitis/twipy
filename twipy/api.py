@@ -69,7 +69,8 @@ class ApiTwip(object):
 
         body = 'status=%s' % urllib.quote(text)
 
-        # todo reply_to implementation
+        if reply_to:
+            body += '&in_reply_to_status_id=' + reply_to
 
         response, content = self._client.request(uri=uri, body=body, method='POST')
 

@@ -28,11 +28,11 @@ def main():
     c = ''
 
     first_time_storage()
+    command = Command()
 
     while c != 'q':
         c = raw_input('Command: ')
-        command = Command(c)
-        command.dispatch()
+        command.dispatch(c)
 
     exit(0)
 
