@@ -2,14 +2,14 @@
 
 import oauth2
 import urllib
-import warnings
+import re
 
 from directory import DirectoryApi
 from keys import KeyFiles
 
 
 RESPONSE_OK = 200
-DOMAINS = ['.com', '.es', '.net', '.info', '.gov', '.fr']
+REGEXP_URL = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
 
 class ApiTwip(object):
@@ -59,10 +59,13 @@ class ApiTwip(object):
 
         if len(text) >= 140:
             print 'Text length has to be less than 140 characters'
+            return
 
-        if any(text in s for s in DOMAINS):
-            if len(text) > 120:
-                print 'Text length with URL hast to be less than 120 characters'
+        urls = re.findall(REGEXP_URL, text)
+
+        if urls and len(text) > 120:
+            print 'Text length with URL hast to be less than 120 characters'
+            return
 
         body = 'status=%s' % urllib.quote(text)
 
