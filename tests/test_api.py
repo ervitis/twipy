@@ -52,7 +52,9 @@ class TestApi(TestCase):
     def test_get_mentions(self):
         api_twipy = tests.create_api()
 
-        api_twipy.get_mentions()
+        content = api_twipy.get_mentions()
+        self.assertTrue(isinstance(content, str))
+        self.assertGreater(len(content), 0)
 
     def test_get_favs(self):
         api_twipy = tests.create_api()

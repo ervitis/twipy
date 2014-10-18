@@ -42,7 +42,7 @@ class DirectoryApi():
         return self._url
 
     def get_url_read_mentions(self):
-        self._url = urljoin(TWITTER_URL, ME_READ)
+        self._url = self._twitter_api + ME_READ
         return self._url
 
     def get_url_new_fav(self):

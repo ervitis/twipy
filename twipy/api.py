@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import oauth2
-import urllib
 import re
 
 from directory import DirectoryApi
@@ -9,7 +8,11 @@ from keys import KeyFiles
 
 
 RESPONSE_OK = 200
+RESPONSE_TOO_MANY_REQUEST = 429
+STATUS_OK = 'ok'
 REGEXP_URL = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
+
+COUNT_MAX = 20
 
 
 class ApiTwip(object):
@@ -60,24 +63,26 @@ class ApiTwip(object):
 
         if len(text) >= 140:
             print 'Text length has to be less than 140 characters'
-            return
+            return None
 
         urls = re.findall(REGEXP_URL, text)
 
         if urls and len(text) > 120:
             print 'Text length with URL hast to be less than 120 characters'
-            return
+            return None
 
-        body = 'status=%s' % urllib.quote(text)
+        body = 'status=' + text.decode('utf-8')
 
-        # todo reply_to implementation
+        if reply_to:
+            body += '&in_reply_to_status_id=' + reply_to
 
         response, content = self._client.request(uri=uri, body=body, method='POST')
 
         response_status = is_response_ok(response)
 
-        if not response_status:
+        if STATUS_OK != response_status:
             print 'Response not ok %s' % response_status  # pragma: no cover
+            return None
 
     def send_direct_message(self):
         pass
@@ -86,12 +91,14 @@ class ApiTwip(object):
         if not self.is_authenticated:
             self._authenticate()
         uri = self._directory_api.get_url_home_timeline()
+        uri += '?count=%s' % COUNT_MAX
 
         response, content = self._client.request(uri=uri)
         response_status = is_response_ok(response)
 
-        if not response_status:
+        if STATUS_OK != response_status:
             print 'Response not ok %s' % response_status  # pragma: no cover
+            return None
 
         return content
 
@@ -99,7 +106,21 @@ class ApiTwip(object):
         pass
 
     def get_mentions(self):
-        pass
+        if not self.is_authenticated:
+            self._authenticate()
+
+        uri = self._directory_api.get_url_read_mentions()
+
+        uri += '?count=%s' % COUNT_MAX
+
+        response, content = self._client.request(uri=uri)
+        response_status = is_response_ok(response)
+
+        if STATUS_OK != response_status:
+            print 'Response not ok: %s' % response_status  # pragma: no cover
+            return None  # pragma: no cover
+
+        return content
 
     def create_fav(self):
         pass
@@ -115,5 +136,7 @@ def is_response_ok(response):
     response_status = int(response['status'])
 
     if response_status == RESPONSE_OK:
-        return True
+        return STATUS_OK  # pragma: no cover
+    elif response_status == RESPONSE_TOO_MANY_REQUEST:
+        return 'Too many request. Wait 15 minutes and try again'
     return response_status  # pragma: no cover
