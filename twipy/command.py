@@ -13,6 +13,7 @@ h:\tPrints help commands
 u:\tWrite u <text> to update your status
 rp:\tWrite rp <id_number> <text> to reply a status. The <id_number> is between 0 and 19.
 \tDon't forget to include the user name with the '@'
+m:\tGet your mentions, included RT
 q:\tExits
 """
 
@@ -22,6 +23,7 @@ COMMAND_EXIT = ['q']
 COMMAND_HELP = ['h']
 COMMAND_UPDATE = ['u']
 COMMAND_REPLY = ['rp']
+COMMAND_MENTIONS = ['m']
 
 REG_EXP_COMMAND_RP = '[^0-9]{1,2}'
 
@@ -39,10 +41,11 @@ class Command():
 
         if self._command in COMMAND_TIMELINE:
             content = self._api.get_home_time_line()  # pragma: no cover
-            self._timeline = self._adapter.create_timeline_object(content)  # pragma: no cover
+            if content:
+                self._timeline = self._adapter.create_timeline_object(content)  # pragma: no cover
 
-            cli_adapter = CliAdapter(self._timeline)  # pragma: no cover
-            cli_adapter.get_statuses()  # pragma: no cover
+                cli_adapter = CliAdapter(self._timeline)  # pragma: no cover
+                cli_adapter.get_statuses()  # pragma: no cover
 
         elif self._command in COMMAND_VERSION:
             print version  # pragma: no cover
@@ -52,6 +55,15 @@ class Command():
 
         elif self._command in COMMAND_HELP:
             print COMMAND_HELP_TEXT  # pragma: no cover
+
+        elif self._command in COMMAND_MENTIONS:
+            content = self._api.get_mentions()  # pragma: no cover
+
+            if content:
+                self._timeline = self._adapter.create_timeline_object(content)  # pragma: no cover
+
+                cli_adapter = CliAdapter(self._timeline)  # pargma: no cover
+                cli_adapter.get_statuses()
 
         elif len(self._command) > 2:
             com = self._command[:2].strip()
