@@ -82,7 +82,7 @@ class ApiTwip(object):
 
         if STATUS_OK != response_status:
             print 'Response not ok %s' % response_status  # pragma: no cover
-            return None
+            return None  # pragma: no cover
 
     def send_direct_message(self):
         pass
@@ -137,6 +137,6 @@ def is_response_ok(response):
 
     if response_status == RESPONSE_OK:
         return STATUS_OK  # pragma: no cover
-    elif response_status == RESPONSE_TOO_MANY_REQUEST:
+    elif response_status == RESPONSE_TOO_MANY_REQUEST:  # pragma: no cover
         return 'Too many request. Wait 15 minutes and try again'  # pragma: no cover
     return response_status  # pragma: no cover
