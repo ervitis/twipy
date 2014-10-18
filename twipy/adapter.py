@@ -65,4 +65,4 @@ class CliAdapter():
             self._print_status(status)  # pragma: no cover
 
     def get_status_from_id(self, c_id):
-        return self._timeline.statuses[c_id]
+        return self._timeline.statuses[c_id]  # pragma: no cover
