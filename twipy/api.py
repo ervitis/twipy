@@ -8,6 +8,7 @@ from keys import KeyFiles
 
 
 RESPONSE_OK = 200
+RESPONSE_TOO_MANY_REQUEST = 429
 STATUS_OK = 'ok'
 REGEXP_URL = 'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+'
 
@@ -115,7 +116,7 @@ class ApiTwip(object):
         response_status = is_response_ok(response)
 
         if STATUS_OK != response_status:
-            print 'Response not ok %s' % response_status  # pragma: no cover
+            print 'Response not ok: %s' % response_status  # pragma: no cover
             return None
 
         return content
@@ -135,4 +136,6 @@ def is_response_ok(response):
 
     if response_status == RESPONSE_OK:
         return STATUS_OK  # pragma: no cover
+    elif response_status == RESPONSE_TOO_MANY_REQUEST:
+        return 'Too many request. Wait 15 minutes and try again'
     return response_status  # pragma: no cover

@@ -2,7 +2,6 @@
 
 from twipy.keys import Keys, KeyFiles
 from twipy.command import Command
-import sys
 
 
 def get_keys(keys):
