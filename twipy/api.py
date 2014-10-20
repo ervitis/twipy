@@ -5,6 +5,7 @@ import re
 
 from directory import DirectoryApi
 from keys import KeyFiles
+from capture import servernotfound_exception
 
 
 RESPONSE_OK = 200
@@ -75,13 +76,16 @@ class ApiTwip(object):
         if reply_to:
             body += '&in_reply_to_status_id=' + reply_to
 
-        response, content = self._client.request(uri=uri, body=body, method='POST')
+        try:
+            response, content = self._client.request(uri=uri, body=body, method='POST')
 
-        response_status = is_response_ok(response)
+            response_status = is_response_ok(response)
 
-        if STATUS_OK != response_status:
-            print 'Response not ok %s' % response_status  # pragma: no cover
-            return None  # pragma: no cover
+            if STATUS_OK != response_status:
+                print 'Response not ok %s' % response_status  # pragma: no cover
+                return None  # pragma: no cover
+        except Exception:
+            servernotfound_exception()
 
     def send_direct_message(self):
         pass
@@ -92,14 +96,18 @@ class ApiTwip(object):
         uri = self._directory_api.get_url_home_timeline()
         uri += '?count=%s' % COUNT_MAX
 
-        response, content = self._client.request(uri=uri)
-        response_status = is_response_ok(response)
+        try:
+            response, content = self._client.request(uri=uri)
 
-        if STATUS_OK != response_status:
-            print 'Response not ok %s' % response_status  # pragma: no cover
-            return None
+            response_status = is_response_ok(response)
 
-        return content
+            if STATUS_OK != response_status:
+                print 'Response not ok %s' % response_status  # pragma: no cover
+                return None
+
+            return content
+        except Exception:
+            servernotfound_exception()
 
     def get_direct_messages(self):
         pass
@@ -112,14 +120,18 @@ class ApiTwip(object):
 
         uri += '?count=%s' % COUNT_MAX
 
-        response, content = self._client.request(uri=uri)
-        response_status = is_response_ok(response)
+        try:
+            response, content = self._client.request(uri=uri)
 
-        if STATUS_OK != response_status:
-            print 'Response not ok: %s' % response_status  # pragma: no cover
-            return None  # pragma: no cover
+            response_status = is_response_ok(response)
 
-        return content
+            if STATUS_OK != response_status:
+                print 'Response not ok: %s' % response_status  # pragma: no cover
+                return None  # pragma: no cover
+
+            return content
+        except Exception:
+            servernotfound_exception()
 
     def create_fav(self):
         pass
