@@ -85,8 +85,8 @@ class ApiTwip(object):
             if STATUS_OK != response_status:
                 print 'Response not ok %s' % response_status  # pragma: no cover
                 return None  # pragma: no cover
-        except Exception:
-            servernotfound_exception()
+        except Exception:  # pragma: no cover
+            servernotfound_exception()  # pragma: no cover
 
     def send_direct_message(self):
         pass
@@ -104,11 +104,11 @@ class ApiTwip(object):
 
             if STATUS_OK != response_status:
                 print 'Response not ok %s' % response_status  # pragma: no cover
-                return None
+                return None  # pragma: no cover
 
             return content
-        except Exception:
-            servernotfound_exception()
+        except Exception:  # pragma: no cover
+            servernotfound_exception()  # pragma: no cover
 
     def get_direct_messages(self):
         pass
