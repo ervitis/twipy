@@ -10,6 +10,7 @@ ME_READ = '/statuses/mentions_timeline.json'
 FV_ADD = '/favorites/create.json'
 FV_READ = '/favorites/list.json'
 VERIFY_CREDENTIALS = '/account/verify_credentials.json'
+RT = '/statuses/retweet/'
 
 REQUEST_TOKEN = '/oauth/request_token'
 AUTHORIZE_URL = '/oauth/authorize'
@@ -67,4 +68,8 @@ class DirectoryApi():
 
     def get_url_access_token(self):
         self._url = urljoin(TWITTER_URL, ACCESS_TOKEN)
+        return self._url
+
+    def get_url_retweet(self):
+        self._url = self._twitter_api + RT
         return self._url

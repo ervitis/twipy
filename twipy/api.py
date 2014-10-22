@@ -130,7 +130,7 @@ class ApiTwip(object):
                 return None  # pragma: no cover
 
             return content
-        except Exception:
+        except Exception:  # pragma: no cover
             servernotfound_exception()
 
     def create_fav(self):
@@ -141,6 +141,25 @@ class ApiTwip(object):
 
     def verify_credentials(self):
         pass
+
+    def retweet(self, tweet_id):
+        if not self.is_authenticated:
+            self._authenticate()
+
+        uri = self._directory_api.get_url_retweet() + '/%s.json' % tweet_id
+
+        try:
+            response, content = self._client.request(uri=uri, method='POST')
+
+            response_status = is_response_ok(response)
+
+            if STATUS_OK != response_status:
+                print 'Response not ok: %s' % response_status  # pragma: no cover
+                return None
+            else:
+                print 'RT successful'  # pragma: no cover
+        except Exception:  # pragma: no cover
+            servernotfound_exception()  # pragma: no cover
 
 
 def is_response_ok(response):

@@ -4,7 +4,7 @@ import time
 import signal
 
 
-SECONDS = 5
+SECONDS = 2
 
 
 class CaptureSignals():
@@ -29,3 +29,9 @@ def servernotfound_exception():
     print 'Is your Internet conection working well and you fed the swallows?'
     time.sleep(SECONDS)
     return None
+
+
+def eoferror_exception():
+    print 'Don\'t do that, please'
+    time.sleep(SECONDS)
+    pass
