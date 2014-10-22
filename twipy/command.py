@@ -11,9 +11,10 @@ ht:\tGets the user's timeline
 v:\tPrints the version
 h:\tPrints help commands
 u:\tWrite u <text> to update your status
-rp:\tWrite rp <id_number> <text> to reply a status. The <id_number> is between 0 and 19.
+rp:\tWrite rp <id_number> <text> to reply a status. The <id_number> has to be between 0 and 19
 \tDon't forget to include the user name with the '@'
 m:\tGet your mentions, included RT
+rt:\tRetweet a tweet with rt <id_number>. The <id_number> has to be between 0 and 19
 q:\tExits
 """
 
@@ -24,6 +25,7 @@ COMMAND_HELP = ['h']
 COMMAND_UPDATE = ['u']
 COMMAND_REPLY = ['rp']
 COMMAND_MENTIONS = ['m']
+COMMAND_RT = ['rt']
 
 REG_EXP_COMMAND_RP = '[^0-9]{1,2}'
 
@@ -79,15 +81,14 @@ class Command():
 
         elif com in COMMAND_REPLY:
             if not self._timeline:
-                print 'Timeline is empty. Execute first the ht command'
+                print 'Timeline is empty. Execute first "ht" or "m" command'
                 return
 
             cli_adapter = CliAdapter(self._timeline)
 
             c_id = text[:2].strip()
             text = text[2:]
-            r = re.findall(REG_EXP_COMMAND_RP, c_id)
-            if r:
+            if not reg_exp_only_numbers(c_id):
                 print 'Bad reply id. Only numbers between 0 and 19'
                 return
 
@@ -98,3 +99,30 @@ class Command():
 
             status = cli_adapter.get_status_from_id(c_id)
             self._api.update_status(text=text, reply_to=status.id_str)
+
+        elif com in COMMAND_RT:
+            c_id = self._command[2:].strip()
+
+            if not reg_exp_only_numbers(c_id):
+                print 'Bad tweet id. Range 0..19'
+                return
+
+            if not self._timeline:
+                print 'Timeline is empty. Execute first "ht" or "m" command'
+                return
+
+            c_id = int(c_id)
+            if c_id < 0 or c_id > 19:
+                print 'Bad reply id. Range: 0..19'
+                return
+
+            cli_adapter = CliAdapter(self._timeline)
+            status = cli_adapter.get_status_from_id(c_id)
+            self._api.retweet(tweet_id=status.id_str)
+
+
+def reg_exp_only_numbers(n):
+    r = re.findall(REG_EXP_COMMAND_RP, n)
+    if r:
+        return False
+    return True

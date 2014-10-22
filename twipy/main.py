@@ -2,6 +2,8 @@
 
 from twipy.keys import Keys, KeyFiles
 from twipy.command import Command
+from twipy.capture import CaptureSignals
+from twipy.capture import eoferror_exception
 
 
 def get_keys(keys):
@@ -24,14 +26,19 @@ def first_time_storage():
 
 
 def main():
+    CaptureSignals().capture_signals()
+
     c = ''
 
     first_time_storage()
     command = Command()
 
     while c != 'q':
-        c = raw_input('Command: ')
-        command.dispatch(c)
+        try:
+            c = raw_input('Command: ')
+            command.dispatch(c)
+        except EOFError:
+            eoferror_exception()
 
     exit(0)
 

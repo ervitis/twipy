@@ -70,3 +70,10 @@ class TestApi(TestCase):
         api_twipy = tests.create_api()
 
         api_twipy.create_fav()
+
+    def test_retweet(self):
+        api_twipy = tests.create_api()
+
+        status = tests.create_status()
+
+        api_twipy.retweet(tweet_id=status.id_str)

@@ -14,3 +14,9 @@ exclude_lines =
     def create_token_file
     def open_token_file
     def exists_token_file
+    class Adapter
+    class CliAdapter
+    class CaptureSignals
+    def signal_handler_interrupt
+    def servernotfound_exception
+    def eoferror_exception
