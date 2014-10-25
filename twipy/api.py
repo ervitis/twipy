@@ -88,8 +88,30 @@ class ApiTwip(object):
         except Exception:  # pragma: no cover
             servernotfound_exception()  # pragma: no cover
 
-    def send_direct_message(self):
-        pass
+    def send_direct_message(self, text, screen_name):
+        if not self.is_authenticated:
+            self._authenticate()
+        uri = self._directory_api.get_url_send_dm()
+
+        if len(text) >= 140:
+            print 'Text length has to be less than 140 characters'
+            return None
+
+        body = 'text=' + text.decode('utf-8')
+        body += '&screen_name=' + screen_name
+
+        try:
+            response, content = self._client.request(uri=uri, body=body, method='POST')
+
+            response_status = is_response_ok(response)
+
+            if STATUS_OK != response_status:
+                print 'Response not ok %s' % response_status  # pragma: no cover
+                return None  # pragma: no cover
+            else:
+                print 'DM Sent'  # pragma: no cover
+        except Exception:
+            servernotfound_exception()
 
     def get_home_time_line(self):
         if not self.is_authenticated:

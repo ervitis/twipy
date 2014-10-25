@@ -9,6 +9,9 @@ from datetime import datetime
 A_T = '2758322448-WO2UmukkqDP8SEjPY9k0nnyEoDwoFjkX2c7T9PN'
 A_S = 'ExTm3xwQeKxCsnJ7T8wlquxtuWhGwqEdYGc3RtANbrGlC'
 
+screen_name = 'b_k_t_r_'
+
+
 
 def create_status():
     return Status(created_at=datetime.now(), id_str='1', text='Prueba test', user='botty')

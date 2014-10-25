@@ -42,7 +42,7 @@ class TestApi(TestCase):
     def test_send_direct_message(self):
         api_twipy = tests.create_api()
 
-        api_twipy.send_direct_message()
+        api_twipy.send_direct_message(text=SHORT_TEXT, screen_name=tests.screen_name)
 
     def test_get_direct_messages(self):
         api_twipy = tests.create_api()
