@@ -94,8 +94,8 @@ class ApiTwip(object):
         uri = self._directory_api.get_url_send_dm()
 
         if len(text) >= 140:
-            print 'Text length has to be less than 140 characters'
-            return None
+            print 'Text length has to be less than 140 characters'  # pragma: no cover
+            return None  # pragma: no cover
 
         body = 'text=' + text.decode('utf-8')
         body += '&screen_name=' + screen_name
@@ -110,8 +110,8 @@ class ApiTwip(object):
                 return None  # pragma: no cover
             else:
                 print 'DM Sent'  # pragma: no cover
-        except Exception:
-            servernotfound_exception()
+        except Exception:  # pragma: no cover
+            servernotfound_exception()  # pragma: no cover
 
     def get_home_time_line(self):
         if not self.is_authenticated:
