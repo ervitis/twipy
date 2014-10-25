@@ -5,7 +5,8 @@ from cStringIO import StringIO
 import sys
 
 from datetime import datetime
-from twipy.keys import KeyFiles, Keys
+
+screen_name = 'b_k_t_r_'
 
 
 def create_status():

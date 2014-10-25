@@ -35,7 +35,7 @@ class DirectoryApi():
         return self._url
 
     def get_url_send_dm(self):
-        self._url = urljoin(TWITTER_URL, DM_WRITE)
+        self._url = self._twitter_api + DM_WRITE
         return self._url
 
     def get_url_read_dm(self):
