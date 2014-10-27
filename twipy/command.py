@@ -16,6 +16,7 @@ rp:\tWrite rp <id_number> <text> to reply a status. The <id_number> has to be be
 m:\tGet your mentions, included RT
 rt:\tRetweet a tweet with rt <id_number>. The <id_number> has to be between 0 and 19
 dm:\tWrite dm @<screen_name> <text>. Don't forget to write the "@"
+fv:\tWrite fv to get your favorite tweets or add one to your list with fv <id_number>
 q:\tExits
 """
 
@@ -28,6 +29,7 @@ COMMAND_REPLY = ['rp']
 COMMAND_MENTIONS = ['m']
 COMMAND_RT = ['rt']
 COMMAND_DM = ['dm']
+COMMAND_FV = ['fv']
 
 REG_EXP_COMMAND_RP = '[^0-9]{1,2}'
 
@@ -122,6 +124,26 @@ class Command():
             status = cli_adapter.get_status_from_id(c_id)
             self._api.retweet(tweet_id=status.id_str)
 
+        elif com in COMMAND_FV:
+            if not self._timeline:
+                print 'Timeline is empty. Execute first "ht" or "m" command'
+                return
+
+            cli_adapter = CliAdapter(self._timeline)
+            c_id = text[:2].strip()
+            text = text[2:]
+            if not reg_exp_only_numbers(c_id):
+                print 'Bad favorite id. Only numbers between 0 and 19'
+                return
+
+            c_id = int(c_id)
+            if c_id < 0 or c_id > 19:
+                print 'Bad favorite id. Range: 0..19'
+                return
+
+            status = cli_adapter.get_status_from_id(c_id)
+            self._api.create_fav(tweet_id=status.id_str)
+
         elif com in COMMAND_DM:
             temp_text = text.split(' ')
 
@@ -138,6 +160,7 @@ class Command():
             text = text[len(screen_name)+1:].strip()
 
             self._api.send_direct_message(text=text, screen_name=screen_name)
+
 
 def reg_exp_only_numbers(n):
     r = re.findall(REG_EXP_COMMAND_RP, n)
