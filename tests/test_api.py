@@ -61,15 +61,12 @@ class TestApi(TestCase):
 
         api_twipy.get_favs()
 
-    def test_verify_credentials(self):
-        api_twipy = tests.create_api()
-
-        api_twipy.verify_credentials()
-
     def test_create_fav(self):
         api_twipy = tests.create_api()
 
-        api_twipy.create_fav()
+        tweet = tests.create_status()
+
+        api_twipy.create_fav(tweet_id=tweet.id_str)
 
     def test_retweet(self):
         api_twipy = tests.create_api()

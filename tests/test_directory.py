@@ -20,7 +20,6 @@ class DirectoryTest(TestCase):
         self.assertTrue(isinstance(directory.TW_API_VERSION, str))
         self.assertTrue(isinstance(directory.TWITTER_URL, str))
         self.assertTrue(isinstance(directory.UPDATE_STATUS, str))
-        self.assertTrue(isinstance(directory.VERIFY_CREDENTIALS, str))
 
     def test_directory(self):
         directory_api = DirectoryApi()
@@ -35,4 +34,3 @@ class DirectoryTest(TestCase):
         self.assertTrue(isinstance(directory_api.get_url_read_mentions(), str))
         self.assertTrue(isinstance(directory_api.get_url_new_fav(), str))
         self.assertTrue(isinstance(directory_api.get_url_read_favs(), str))
-        self.assertTrue(isinstance(directory_api.get_url_verify_credentials(), str))

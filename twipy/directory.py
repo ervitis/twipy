@@ -9,7 +9,6 @@ DM_WRITE = '/direct_messages/new.json'
 ME_READ = '/statuses/mentions_timeline.json'
 FV_ADD = '/favorites/create.json'
 FV_READ = '/favorites/list.json'
-VERIFY_CREDENTIALS = '/account/verify_credentials.json'
 RT = '/statuses/retweet/'
 
 REQUEST_TOKEN = '/oauth/request_token'
@@ -39,7 +38,7 @@ class DirectoryApi():
         return self._url
 
     def get_url_read_dm(self):
-        self._url = urljoin(TWITTER_URL, DM_READ)
+        self._url = self._twitter_api + DM_READ
         return self._url
 
     def get_url_read_mentions(self):
@@ -47,15 +46,11 @@ class DirectoryApi():
         return self._url
 
     def get_url_new_fav(self):
-        self._url = urljoin(TWITTER_URL, FV_ADD)
+        self._url = self._twitter_api + FV_ADD
         return self._url
 
     def get_url_read_favs(self):
-        self._url = urljoin(TWITTER_URL, FV_READ)
-        return self._url
-
-    def get_url_verify_credentials(self):
-        self._url = urljoin(TWITTER_URL, VERIFY_CREDENTIALS)
+        self._url = self._twitter_api + FV_READ
         return self._url
 
     def get_url_request_token(self):
