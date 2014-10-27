@@ -171,7 +171,7 @@ class ApiTwip(object):
                 print 'Response not ok: %s' % response_status  # pragma: no cover
                 return None  # pragma: no cover
             else:
-                print 'FV successful'
+                print 'FV successful'  # pragma: no cover
         except Exception:  # pragma: no cover
             servernotfound_exception()
 
