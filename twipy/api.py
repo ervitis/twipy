@@ -199,7 +199,7 @@ class ApiTwip(object):
         uri = self._directory_api.get_url_read_favs()
 
         if screen_name:
-            uri += '?screen_name=' + screen_name
+            uri += '?screen_name=' + screen_name  # pragma: no cover
 
         try:
             response, content = self._client.request(uri=uri)
