@@ -15,7 +15,7 @@ rp:\tWrite rp <id_number> <text> to reply a status. The <id_number> has to be be
 \tDon't forget to include the user name with the '@'
 m:\tGet your mentions, included RT
 rt:\tRetweet a tweet with rt <id_number>. The <id_number> has to be between 0 and 19
-dm:\tWrite dm @<screen_name> <text>. Don't forget to write the "@"
+dm:\tWrite dm @<screen_name> <text> to send a message or get your DM. Don't forget to write the "@"
 fv:\tWrite fv to get your favorite tweets or add one to your list with fv <id_number>
 q:\tExits
 """
@@ -70,6 +70,22 @@ class Command():
 
                 cli_adapter = CliAdapter(self._timeline)  # pragma: no cover
                 cli_adapter.get_statuses()
+
+        elif self._command in COMMAND_FV:
+            content = self._api.get_favs()  # pragma: no cover
+            if content:
+                self._timeline = self._adapter.create_timeline_object(content)  # pragma: no cover
+
+                cli_adapter = CliAdapter(self._timeline)  # pragma: no cover
+                cli_adapter.get_statuses()  # pragma: no cover
+
+        elif self._command in COMMAND_DM:
+            content = self._api.get_direct_messages()  # pragma: no cover
+            if content:
+                self._timeline = self._adapter.create_dm_timeline_object(content)  # pragma: no cover
+
+                cli_adapter = CliAdapter(self._timeline)  # pragma: no cover
+                cli_adapter.get_direct_messages()  # pragma: no cover
 
         elif len(self._command) > 2:
             com = self._command[:2].strip()

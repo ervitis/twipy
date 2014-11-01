@@ -132,7 +132,23 @@ class ApiTwip(object):
             servernotfound_exception()
 
     def get_direct_messages(self):
-        pass
+        if not self.is_authenticated:
+            self._authenticate()
+
+        uri = self._directory_api.get_url_read_dm()
+
+        try:
+            response, content = self._client.request(uri=uri)
+
+            response_status = is_response_ok(response)
+
+            if STATUS_OK != response_status:
+                print 'Response not ok %s' % response_status  # pragma: no cover
+                return None  # pragma: no cover
+
+            return content
+        except Exception:  # pragma: no cover
+            servernotfound_exception()
 
     def get_mentions(self):
         if not self.is_authenticated:
@@ -175,8 +191,27 @@ class ApiTwip(object):
         except Exception:  # pragma: no cover
             servernotfound_exception()
 
-    def get_favs(self):
-        pass
+    def get_favs(self, screen_name=None):
+        if not self.is_authenticated:
+            self._authenticate()
+
+        uri = self._directory_api.get_url_read_favs()
+
+        if screen_name:
+            uri += '?screen_name=' + screen_name
+
+        try:
+            response, content = self._client.request(uri=uri)
+
+            response_status = is_response_ok(response)
+
+            if STATUS_OK != response_status:
+                print 'Response not ok: %s' % response_status  # pragma: no cover
+                return None  # pragma: no cover
+
+            return content
+        except Exception:  # pragma: no cover
+            servernotfound_exception()
 
     def retweet(self, tweet_id):
         if not self.is_authenticated:

@@ -41,6 +41,27 @@ class Adapter():
 
         return self._user_obj
 
+    def _get_dm_object(self, dict_dm):
+        self._dm_obj = models.DirectMessage(
+            id_str=dict_dm['id_str'],
+            created_at=dict_dm['created_at'],
+            sender_screen_name=dict_dm['sender_screen_name'],
+            recipient_screen_name=dict_dm['recipient_screen_name'],
+            text=dict_dm['text']
+        )
+
+        return self._dm_obj
+
+    def create_dm_timeline_object(self, dict_content):
+        timeline = models.Timeline()
+        json_content = json.loads(dict_content)
+
+        for content in json_content:
+            direct_message = self._get_dm_object(content)
+            timeline.add(direct_message)
+
+        return timeline
+
     def create_timeline_object(self, dict_content):
         timeline = models.Timeline()
         json_content = json.loads(dict_content)
@@ -60,9 +81,16 @@ class CliAdapter():
     def _print_status(self, status):
         print '(%s) %s: %s' % (status.c_id, status.user.screen_name, status.text)  # pragma: no cover
 
+    def _print_dm(self, dm):
+        print '(%s) %s: %s' % (dm.c_id, dm.sender_screen_name, dm.text)  # pragma: no cover
+
     def get_statuses(self):
         for status in self._timeline.statuses:  # pragma: no cover
             self._print_status(status)  # pragma: no cover
 
     def get_status_from_id(self, c_id):
         return self._timeline.statuses[c_id]
+
+    def get_direct_messages(self):
+        for dm in self._timeline.statuses:  # pragma: no cover
+            self._print_dm(dm)  # pragma: no cover
