@@ -6,8 +6,8 @@ from urlparse import urljoin, parse_qsl
 import ConfigParser
 from directory import DirectoryApi
 
-CONSUMER_KEY = 'zLs5P3Mk1eQxTmdLSX6VqpDXj'
-CONSUMER_SECRET = 'HCkA4cRitOvHic7V3k2PZxAZS9ZZX1YqLRGgkHvZ2CijUBEdI9'
+CONSUMER_KEY = os.environ['CONSUMER_KEY']
+CONSUMER_SECRET = os.environ['CONSUMER_SECRET']
 
 RESPONSE_OK = '200'
 
